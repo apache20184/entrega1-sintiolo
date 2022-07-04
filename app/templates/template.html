@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+   
+{% block title %}
+<title>Document</title>
+{% endblock title %}
+
+{% block h1 %}esta es mi pagina{% endblock h1 %}
+
+{% block text %}
+<p>
+    informacion de mi familia:
+    <ul>
+        <li> {{Familia.nombre}}</li>
+        <li> {{Familia.fecha_de_nacimiento}} </li>
+        <li>   {{Familia.edad}}    </li>
+    </ul>
+    <ul>
+        <li> {{juan.nombre}}</li>
+        <li> {{juan.fecha_de_nacimiento}} </li>
+        <li>   {{juan.edad}}    </li>
+    </ul>
+    <ul>
+        <li> {{julieta.nombre}}</li>
+        <li> {{julieta.fecha_de_nacimiento}} </li>
+        <li>   {{julieta.edad}}    </li>
+    </ul>
+</p>
+{% endblock text %}
