@@ -1,6 +1,9 @@
 from django.urls import path
-from app.views import creacion_tablas
+from .views import creacion_tablas, inicio, listadovista, nosotros
 
 urlpatterns = [
-    path('', creacion_tablas),
+  path('', inicio, name='inicio' ),
+  path('creacion_tablas/', creacion_tablas , name='creacion_tablas' ),
+  path('formulario/', listadovista , name='listado'),
+  path('paginanosotros/', nosotros , name='nosotros')
   ]

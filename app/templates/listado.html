@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+   
+{% block title %}
+<title>Document</title>
+{% endblock title %}
+
+{% block header %}esta es mi pagina{% endblock header %}
+
+{% block text_header %}
+<p>
+    buscar familiar:
+    
+</p>
+{% endblock text_header %}
+
+{% block despues_del_header %}
+<p>
+    <a href={% url 'creacion_tablas' %}>Crear familiar</a>
+</p>
+
+<p>
+    <form action={% url 'listado' %}>
+        {{form}}
+        <button>Buscar</button>
+    </form>
+</p>
+
+<p>
+    {% if listado %}
+    <ul>
+        {% for familiar in listado%}
+        <li>{{familiar}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    No se encontraron esos datos
+    {% endif %}
+</p>
+{% endblock despues_del_header %}

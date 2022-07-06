@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>Document</title>
+{% endblock title %}
+
+{% block header %}esta es mi pagina!{% endblock header %}
+
+{% block text_header %}
+<p>
+    crear familiar: 
+    
+</p>
+{% endblock text_header %}
+{% block despues_del_header %}
+<p>
+ <form action={% url 'creacion_tablas' %} method="post">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+      <button>Crear</button>
+
+</form>
+
+
+</p>
+{% endblock despues_del_header %}
+

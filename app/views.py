@@ -1,25 +1,54 @@
-from django.shortcuts import render 
+from django.shortcuts import redirect, render 
 from django.http import HttpResponse
 from app.models import Familiar
 from django.template import Context, Template
+from .forms import FormFamiliar, BusquedaFamiliar
+from datetime import datetime
 # Create your views here.
-def creacion_tablas (request):
-    mihtml=open(r"C:\Users\Alejo\Documents\trabajo2\proyecto2\app\templates\template.html")
-    plantilla= Template(mihtml.read())
-    
-       
-    familia = Familiar (nombre="pablo", fecha_de_nacimiento="1932-05-09",edad="40")
-    
-    familia.save()
-    
-    juan = Familiar (nombre="juan", fecha_de_nacimiento="1978-09-12",edad="35")
-    juan.save()
-    
-    julieta = Familiar (nombre="julieta", fecha_de_nacimiento="1999-04-24",edad="78")
-    julieta.save()
-    micontexto= Context({"Familia":familia, "juan":juan, "julieta":julieta})
-    documento=plantilla.render(micontexto)
-    mihtml.close()
-    return HttpResponse(documento)
 
+def creacion_tablas (request):
+    if request.method == 'POST':
+        form = FormFamiliar(request.POST)
+        
+        if form.is_valid():
+            data = form.cleaned_data
+            
+            fecha = data.get('fecha_de_nacimiento')
+            if not fecha:
+                fecha = datetime.now() 
+            
+            familia = Familiar(
+                nombre=data.get('nombre'),
+                edad=data.get('edad'),
+                fecha_de_nacimiento=fecha
+               
+            )
+            familia.save()
+
+            return redirect('listado')
+        
+        else:
+            return render(request, 'formulario2.html', {'form': form})
+            
     
+    form_familiar = FormFamiliar()
+    
+    return render(request, 'formulario2.html', {'form': form_familiar})
+
+
+def listadovista(request):
+    nombre_de_busqueda = request.GET.get('nombre')
+    
+    if nombre_de_busqueda:
+        listado_familia = Familiar.objects.filter(nombre__icontains=nombre_de_busqueda) 
+    else:
+        listado_familia = Familiar.objects.all()
+    
+    form = BusquedaFamiliar()
+    return render(request, 'listado.html', {'listado_familiar': listado_familia, 'form': form})
+    
+def nosotros(request):
+     return render(request, 'nosotrostemplate.html',)
+ 
+def inicio(request):
+    return render(request, 'index.html')
